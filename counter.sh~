@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # SCRIPT: NAME_of_SCRIPT
 # AUTHOR: AUTHORS_NAME
@@ -35,47 +35,10 @@
 
 THIS_SCRIPT=$(basename $0)
 ECHO=echo
+
 ##########################################################
 #              DEFINE FUNCTIONS HERE
 ##########################################################
- function dots() {
-	SEC=$1 # How many seconds between dots?
-	
-	while true
-	do
-		sleep $SEC
-		echo  ".\c"
-	done 
- }
- 
- function rotate() {
-	INTERVAL=0.5
-	RCOUNT="0" # For each RCOUNT the line rotates 1/8
-				  # cycle
-	while :
-	do
-		(( RCOUNT = RCOUNT + 1 )) # Increment the RCOUNT
-		
-		case  $RCOUNT in
-			1) echo '-'"\b\c"
-					sleep $INTERVAL
-					;;
-			2) echo '\\'"\b\c"
-					sleep $INTERVAL
-					;;
-			3) echo '|'"\b\c"
-					sleep $INTERVAL
-					;;
-			4) echo '/'"\b\c"
-					sleep $INTERVAL
-					;;
-			*) RCOUNT="0" # Reset the RCOUNT to "0", zero.
-				;;
-		esac
-	done
-	 
- } # END of Function - rotate
- 
  function elapsed_time() {
 	 SEC=$1
 	 
@@ -87,29 +50,43 @@ ECHO=echo
 	 $(( SEC/3600 )) hr $(( (SEC % 3600) / 60 )) min\ $((
 	 (SEC % 3600)%60 )) sec]\c"
  }
+ 
+ function trap_exit() {
+	 kill $BG_PID
+	 echo "Killed PID ::  $BG_PID"
+ }
+ 
+ function start_counter() {
+	LIMIT=$1
+	 
+	 until (( LIMIT < SECONDS )) 
+    do
+    	  clear
+	     elapsed_time $(( LIMIT  -  SECONDS ))
+	     sleep 1
+    done
+    echo 
+    
+    echo $( cat success.txt )
+    
+ }
 
 ##########################################################
 #               BEGINNING OF MAIN
 ##########################################################
 
-echo "Please wait it may take several minutes  "
+# trap 'trap_exit; exit 2' 1 2 SIGINT 
+SECONDS=0
 
-# dots 10 &
+max=$1
 
-rotate &
+start_counter $max &
 
 BG_PID=$!
 
-# echo $BG_PID
+# sleep $max
 
-sleep 60
-
-kill $BG_PID
-
-# Cleanup....
-echo "\b\b "
-
-echo "Done!!!"
+# kill $BG_PID
 
 # End of script
 

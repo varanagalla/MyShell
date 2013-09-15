@@ -34,7 +34,7 @@
 ##########################################################
 
 THIS_SCRIPT=$(basename $0)
-ECHO=echo
+
 ##########################################################
 #              DEFINE FUNCTIONS HERE
 ##########################################################
@@ -75,18 +75,6 @@ ECHO=echo
 	done
 	 
  } # END of Function - rotate
- 
- function elapsed_time() {
-	 SEC=$1
-	 
-	 (( SEC < 60 )) && $ECHO "[Elapsed time: $SEC seconds]\c"
-	 
-	 (( SEC >= 60 && SEC < 3600 )) && $ECHO "[Elapse time: $(( SEC/60 )) min $(( SEC%60 )) sec] \c"
-	 
-	 (( SEC > 3600 ))  && $ECHO "[Elapsed time: \
-	 $(( SEC/3600 )) hr $(( (SEC % 3600) / 60 )) min\ $((
-	 (SEC % 3600)%60 )) sec]\c"
- }
 
 ##########################################################
 #               BEGINNING OF MAIN

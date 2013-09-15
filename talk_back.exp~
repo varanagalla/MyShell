@@ -1,0 +1,69 @@
+#!/usr/bin/expect -f
+#
+# SCRIPT: talk_back.exp
+# AUTHOR: VARAPRASAD NAGALLA
+# DATE:   09/13/2013
+# REV:    1.1.A 
+#
+# PLATFORM: (SPECIFY: AIX, HP-UX, Linux, OpenBSD, Solaris, other flavor, 
+#                      or Not platform dependent)
+#
+# REQUIREMENTS: 
+#
+# PURPOSE: 
+#
+# REV LIST:
+#        DATE: DATE_of_REVISION
+#        BY:   AUTHOR_of_MODIFICATION
+#        MODIFICATION: Describe what was modified, new features, etc--
+#
+#
+# set -n   # Uncomment to check script syntax, without execution.
+#          # NOTE: Do not forget to put the # comment back in or
+#          #       the shell script will never execute!
+# set -x   # Uncomment to debug this shell script
+#
+##########################################################
+#         DEFINE FILES AND VARIABLES HERE
+##########################################################
+
+
+##########################################################
+#              DEFINE FUNCTIONS HERE
+##########################################################
+ 
+
+##########################################################
+#               BEGINNING OF MAIN
+##########################################################
+set timeout -1
+spawn $env(SHELL)
+
+# expect "\rWhy not working???"
+send -- "./lunch_time.bash\r"
+
+expect "lunch_time.bash\r"
+
+expect "Hey Bob, you in?\r"
+send -- "Yes\r"
+
+expect "Have you eaten yet?\r"
+send -- "No\r"
+
+expect "You want to?\r"
+send -- "Where at?\r"
+
+expect "How about that Italian place?\r"
+send -- "Works for me\r"
+
+expect "Meet you in the lobby\r"
+send -- "Groovy man\r"
+
+expect -exact  "Groovy man\r"
+
+expect eof
+
+
+
+# End of script
+
